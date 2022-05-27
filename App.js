@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import type { Node } from 'react';
 import {
     SafeAreaView,
@@ -27,33 +27,36 @@ import {
     LearnMoreLinks,
     ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 const App: () => Node = () => {
     const [page, setPage] = useState('home')
-
+    const [region, setRegion] = useState({
+        latitude: 35.6772007,
+        longitude: 139.7456575,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+    })
+    const [coordinate, setCoordinate] = useState({
+        latitude: 35.6772007,
+        longitude: 139.7456575,
+    })
     return (
-        <SafeAreaView style={styles.container}>
-            {/* <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} /> */}
-            <View style={styles.body}>
-                {page === 'home' ?
-                    <View style={styles.homeContainer}>
-                    </View> :
-                    <View style={styles.favoriateContainer}>
-                    </View>
-                }
-            </View>
-
-            <View style={styles.footer}>
-                <Button
-                    title='Home'
-                    onPress={() =>setPage('home') }
+        <View style={StyleSheet.absoluteFillObject}>
+            <MapView 
+                style={StyleSheet.absoluteFillObject}
+                provider={PROVIDER_GOOGLE}
+                region={region}
+                // onRegionChange={(region)=>setRegion(region)}
+                >
+                <Marker draggable
+                    title={"coordinate"}
+                    description={JSON.stringify(coordinate)}
+                    coordinate={coordinate}
+                    onDragEnd={(e) => setCoordinate(e.nativeEvent.coordinate)}
                 />
-                <Button
-                    title='Favoriate'
-                    onPress={() => setPage('favoriate')}
-                />
-            </View>
-        </SafeAreaView>
+            </MapView>
+            <View style={{ position: 'absolute', top: 100, left: 50 }}/>
+        </View>
     );
 };
 
@@ -66,8 +69,9 @@ const styles = StyleSheet.create({
         height: '90%',
     },
     homeContainer: {
+        flex: 1,
         height: '100%',
-        backgroundColor: 'green'
+        // backgroundColor: 'green'
     },
     favoriateContainer: {
         height: '100%',
@@ -78,14 +82,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
-    sectionDescription: {
-        marginTop: 8,
-        fontSize: 18,
-        fontWeight: '400',
-    },
-    highlight: {
-        fontWeight: '700',
-    },
+    map: {
+        ...StyleSheet.absoluteFillObject,
+    }
 });
 
 export default App;
