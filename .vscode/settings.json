@@ -1,0 +1,15 @@
+{
+	"editor.tabSize": 2,
+	// 默认使用prettier格式化支持的文件
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.codeActionsOnSave": {
+		//自动整理页面所有import引用，包括删除未使用到的import、多import归类整理、排序等
+		"source.organizeImports": true,
+		"source.fixAll": true
+	},
+	//每次保存的时候自动格式化
+	"editor.formatOnSave": true,
+	//每次保存的时候将代码按eslint格式进行修复
+	// "eslint.autoFixOnSave": true,
+	"window.zoomLevel": 0
+}
